@@ -4,11 +4,12 @@
 
 using namespace std;
 
-//02. Функция для склеивания двух файлов в один
+//02. Функция для склеивания двух файлов в один с использованием выделенной памяти
 void Combine(string path0, string path1) {
   string pathcombine = "filecombine.txt";
   fstream file0, file1, filecombine;
   string stringboofer;
+  string* combineboofer;
 
   filecombine.open(pathcombine, fstream::out);
   file0.open(path0, fstream::in);
@@ -18,16 +19,40 @@ void Combine(string path0, string path1) {
       cout << "Закрыто" << endl;
     }
   else {
+      int i = 0;
+
+      while (!file0.eof() && !file1.eof()) {
+          getline(file0, stringboofer);
+          i++;
+          getline(file1, stringboofer);
+          i++;
+        }
+
+      file0.close();
+      file1.close();
+
+      combineboofer = new string[i];
+
+      file0.open(path0, fstream::in);
+      file1.open(path1, fstream::in);
+
+      i = 0;
       while (!file0.eof()) {
           stringboofer = "";
-          getline(file0, stringboofer);
-          filecombine << stringboofer << endl;
+          getline(file0, combineboofer[i]);
+          i++;
         }
       while (!file1.eof()) {
           stringboofer = "";
-          getline(file1, stringboofer);
-          filecombine << stringboofer << endl;
+          getline(file1, combineboofer[i]);
+          i++;
         }
+
+      for(int j = 0; j < i; j++) {
+          filecombine << combineboofer[j] << "\n";
+        }
+
+      delete[] combineboofer;
     }
 
   filecombine.close();
