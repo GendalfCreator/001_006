@@ -20,7 +20,6 @@ void Combine(string path0, string path1) {
     }
   else {
       int i = 0;
-
       while (!file0.eof() && !file1.eof()) {
           getline(file0, stringboofer);
           i++;
@@ -60,7 +59,35 @@ void Combine(string path0, string path1) {
   file1.close();
 }
 
-int main()
+//03. Поиск слова в заданном файле
+void FindWord(string word, string path) {
+  fstream file;
+  file.open(path, fstream::in);
+
+  if(!file.is_open()) {
+      cout << "Данный файл не найден" << endl;
+    }
+  else {
+      string line;
+      int flag = 1;
+      while (!file.eof()) {
+          getline(file, line);
+          if (int(line.find(word)) != -1) {
+              cout << "Слово в файле найдено" << endl;
+              break;
+            }
+          else {
+              flag = 0;
+            }
+        }
+      if (flag == 0) {
+          cout << "Слово в файле не найдено" << endl;
+        }
+    }
+  file.close();
+}
+
+int main(int argc, char* argv[])
 {
 
 //01. Создание двух файлов с данными
@@ -84,8 +111,31 @@ int main()
 
   file0.close();
   file1.close();
-
+//02. Совмещение двух файлов в один
   Combine(path0, path1);
+
+//03. Поиск слова в заданном файле
+  string findword, filepath;
+  fstream findfile;
+
+//  filepath = argv[1]; //Для реализации программы с вводом параметров при запуске
+//  findword = argv[2];
+
+  do {
+      cout << "Пожалуйста, введите путь к файлу, в котором необходимо произвести поиск: ";
+      cin >> filepath;
+      findfile.open(filepath, fstream::in);
+      if (!findfile.is_open()) {
+          cout << "Данный файл не найден" << endl;
+        }
+    }
+  while (!findfile.is_open());
+  findfile.close();
+
+  cout << "Пожалуйста, введите слово, которое необходимо найти в этом файле: ";
+  cin >> findword;
+
+  FindWord(findword, filepath);
 
   return 0;
 }
