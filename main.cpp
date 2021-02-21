@@ -4,7 +4,7 @@
 
 using namespace std;
 
-//02. Функция для склеивания двух файлов в один с использованием выделенной памяти
+//02. Функция склеивания двух файлов в один с использованием выделенной памяти
 void Combine(string path0, string path1) {
   string pathcombine = "filecombine.txt";
   fstream file0, file1, filecombine;
@@ -59,7 +59,7 @@ void Combine(string path0, string path1) {
   file1.close();
 }
 
-//03. Поиск слова в заданном файле
+//03. Функция поиска слова в заданном файле
 void FindWord(string word, string path) {
   fstream file;
   file.open(path, fstream::in);
